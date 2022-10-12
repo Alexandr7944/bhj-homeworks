@@ -4,7 +4,6 @@ const modal =  document.getElementById('modal');
 const btnClose = document.getElementById('modal-close');
 btnClose.onclick = () => modal.close();
 
-let timerID = 0;
 let arr = timer.textContent.split(':').map(i => Number(i));
 let [hours, min, sec] = arr;
 let timerMS = hours * 60 * 60 * 1000 + min * 60 * 1000 + sec * 1000;
@@ -29,4 +28,4 @@ const countTimer = () => {
     timer.textContent = `${hours}:${min}:${sec}`;
 }
 
-timerID = setInterval(countTimer, 1000)
+let timerID = setInterval(countTimer, 1000)
