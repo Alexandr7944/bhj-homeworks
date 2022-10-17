@@ -16,14 +16,34 @@ class Game {
     this.lossElement.textContent = 0;
   }
 
+  // timer() {
+    // const statusTime = document.querySelector('.status__time');
+    // let symbol = document.getElementsByClassName('symbol');
+    // let deadline = Date.now() + symbol.length * 1500;
+    // let timerID = setInterval(() => {
+    //   statusTime.textContent = ((deadline - Date.now()) / 1000).toFixed(1);
+    //   if(statusTime.textContent <= 0) {
+    //     statusTime.textContent = 0;
+    //     clearInterval(timerID);
+    //     this.fail();
+    //   }
+    // }, 200);
+  // }
+
+  /* При обновлении страницы или при успешном наборе символов старый таймер не 
+  останавливается и получается сразу ошибка и 2 таймера в работе.
+  Я старался найти способ останавливать таймер с registerEvents(), но так и не понял как это сделать*/
+
   registerEvents() {
-    /*
-      TODO:
-      Написать обработчик события, который откликается
-      на каждый введённый символ.
-      В случае правильного ввода слова вызываем this.success()
-      При неправильном вводе символа - this.fail();
-     */
+    const word = document.querySelector('body');
+    const testKey = e => {
+      if(e.key === this.currentSymbol.textContent) {
+        this.success();
+      }else{
+        this.fail();
+      }
+    }
+    word.addEventListener('keyup', testKey);
   }
 
   success() {
@@ -52,6 +72,7 @@ class Game {
     const word = this.getWord();
 
     this.renderWord(word);
+    // this.timer();
   }
 
   getWord() {
