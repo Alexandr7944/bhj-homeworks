@@ -6,7 +6,7 @@ class Game {
     this.lossElement = container.querySelector('.status__loss');
 
     this.reset();
-
+    this.timerID = 0;
     this.registerEvents();
   }
 
@@ -15,34 +15,40 @@ class Game {
     this.winsElement.textContent = 0;
     this.lossElement.textContent = 0;
   }
+// Вроде все заработало
+  timer() {
+    const statusTime = document.querySelector('.status__time');
+    let symbol = document.getElementsByClassName('symbol');
+    let deadline = Date.now() + symbol.length * 1500;
+    
+    if(this.timerID) {
+      clearInterval(this.timerID);
+    } 
 
-  // timer() {
-    // const statusTime = document.querySelector('.status__time');
-    // let symbol = document.getElementsByClassName('symbol');
-    // let deadline = Date.now() + symbol.length * 1500;
-    // let timerID = setInterval(() => {
-    //   statusTime.textContent = ((deadline - Date.now()) / 1000).toFixed(1);
-    //   if(statusTime.textContent <= 0) {
-    //     statusTime.textContent = 0;
-    //     clearInterval(timerID);
-    //     this.fail();
-    //   }
-    // }, 200);
-  // }
-
-  /* При обновлении страницы или при успешном наборе символов старый таймер не 
-  останавливается и получается сразу ошибка и 2 таймера в работе.
-  Я старался найти способ останавливать таймер с registerEvents(), но так и не понял как это сделать*/
+    this.timerID = setInterval(() => {
+      statusTime.textContent = ((deadline - Date.now()) / 1000).toFixed(1);
+      if(statusTime.textContent <= 0) {
+        this.fail();
+        statusTime.textContent = 0;
+        clearInterval(this.timerID);
+      }
+    }, 200);
+  }
 
   registerEvents() {
     const word = document.querySelector('body');
     const testKey = e => {
       if(e.key === this.currentSymbol.textContent) {
         this.success();
+        clearInterval(this.timerID);
+        this.timer();
       }else{
         this.fail();
+        clearInterval(this.timerID);
+        this.timer();
       }
     }
+
     word.addEventListener('keyup', testKey);
   }
 
@@ -72,7 +78,6 @@ class Game {
     const word = this.getWord();
 
     this.renderWord(word);
-    // this.timer();
   }
 
   getWord() {
