@@ -4,9 +4,10 @@ class Game {
     this.wordElement = container.querySelector('.word');
     this.winsElement = container.querySelector('.status__wins');
     this.lossElement = container.querySelector('.status__loss');
+    this.statusTime = document.querySelector('.status__time');
 
     this.reset();
-    this.timerID = 0;
+    this.timerID;
     this.registerEvents();
   }
 
@@ -15,24 +16,20 @@ class Game {
     this.winsElement.textContent = 0;
     this.lossElement.textContent = 0;
   }
-// Вроде все заработало
+  /*timer() запускается каждые 0,3 секунды, чтобы обновить данные на странице и 
+  проверить остаток времени
+  в переменные symbol и deadline при каждом вызове метода записываются новые данные,
+  потому что для каждого слова разный deadline*/
   timer() {
-    const statusTime = document.querySelector('.status__time');
-    let symbol = document.getElementsByClassName('symbol');
-    let deadline = Date.now() + symbol.length * 1500;
-    
-    if(this.timerID) {
-      clearInterval(this.timerID);
-    } 
-
+    let deadline = Date.now() + document.getElementsByClassName('symbol').length * 1000;
     this.timerID = setInterval(() => {
-      statusTime.textContent = ((deadline - Date.now()) / 1000).toFixed(1);
-      if(statusTime.textContent <= 0) {
+      this.statusTime.textContent = ((deadline - Date.now()) / 1000).toFixed(1);
+
+      if(this.statusTime.textContent <= 0) {
+        this.statusTime.textContent = 0;
         this.fail();
-        statusTime.textContent = 0;
-        clearInterval(this.timerID);
       }
-    }, 200);
+    }, 300);
   }
 
   registerEvents() {
@@ -40,12 +37,8 @@ class Game {
     const testKey = e => {
       if(e.key === this.currentSymbol.textContent) {
         this.success();
-        clearInterval(this.timerID);
-        this.timer();
       }else{
         this.fail();
-        clearInterval(this.timerID);
-        this.timer();
       }
     }
 
@@ -75,9 +68,11 @@ class Game {
   }
 
   setNewWord() {
+    clearInterval(this.timerID);
     const word = this.getWord();
 
     this.renderWord(word);
+    this.timer()
   }
 
   getWord() {
