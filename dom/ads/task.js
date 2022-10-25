@@ -1,9 +1,7 @@
-const rotatorCase = Array.from(document.querySelectorAll('.rotator__case'));
-let index = 0;
-
+let active = document.querySelector('.rotator__case_active');
 setInterval(() => {
-    document.querySelector('.rotator__case_active').classList.remove('rotator__case_active');
-    index === rotatorCase.length - 1 ? index = 0 : index++;
-    rotatorCase[index].classList.add('rotator__case_active');
-    rotatorCase[index].style.color=`${rotatorCase[index].dataset.color}`;
-}, rotatorCase[index].dataset.speed)
+    active.classList.remove('rotator__case_active');
+    active = active === active.parentElement.lastElementChild ? active.parentElement.firstElementChild : active.nextElementSibling;
+    active.classList.add('rotator__case_active');
+    active.style.color=`${active.dataset.color}`;
+}, 1000)
