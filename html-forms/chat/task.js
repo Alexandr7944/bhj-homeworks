@@ -1,6 +1,12 @@
 const chatWidget = document.querySelector('.chat-widget');
 chatWidget.onclick = () => chatWidget.classList.add('chat-widget_active');
 
+document.addEventListener('click', event => {
+    if(!event.target.closest('.chat-widget')) {
+        chatWidget.classList.remove('chat-widget_active');
+    }
+})
+
 const chatWidgetInput = document.querySelector('.chat-widget__input');
 const messages = document.querySelector('.chat-widget__messages');
 const container = document.querySelector('.chat-widget__messages-container');
@@ -22,10 +28,10 @@ const randomMessages = [
     'Сколько времени рыба плавает после еды?',
     ];
 
-chatWidgetInput.addEventListener('keyup', e => {
-    if(e.code === 'Enter' || e.code === 'NumpadEnter') {
+chatWidgetInput.addEventListener('keydown', e => {
+    if(e.key === 'Enter') {
         if(chatWidgetInput.value) {
-            const timeNow = `${new Date().getHours()}:${new Date().getMinutes()}`;
+            const timeNow = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
             messages.innerHTML += `
             <div class="message message_client">
                 <div class="message__time">${timeNow}</div>
