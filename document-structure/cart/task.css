@@ -26,6 +26,17 @@ body {
   height: 100px;
   object-fit: contain;
 }
+
+.cart__product-remove {
+  color: red;
+  font-size: 30px;
+  text-decoration: none;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 10px;
+}
+
 .product {
   display: flex;
   flex-wrap: wrap;
