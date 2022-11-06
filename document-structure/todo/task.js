@@ -5,7 +5,7 @@ tasksList.innerHTML = localStorage.getItem('tasks');
 
 tasksForm.addEventListener('submit', event => {
     event.preventDefault();
-    if(tasksInput.value) {
+    if(tasksInput.value.trim()) {
         const task = `
             <div class="task">
                 <div class="task__title">
@@ -15,15 +15,20 @@ tasksForm.addEventListener('submit', event => {
             </div>
         `;
         tasksList.innerHTML += task;
-        localStorage.setItem(`tasks`, `${tasksList.innerHTML}`)
-        tasksForm.reset();
+        localStorage.setItem(`tasks`, `${tasksList.innerHTML}`);
     }
+    tasksForm.reset();
+    taskRemove();
 })
 
-const task = document.getElementsByClassName('task__remove');
-for(let i = 0; i < task.length; i ++) {
-    task[i].onclick = event => {
-        event.target.parentElement.remove();
-        localStorage.setItem(`tasks`, `${tasksList.innerHTML}`);
+document.querySelector('.task') ? taskRemove() : '';
+
+function taskRemove() {
+    const task = document.querySelectorAll('.task__remove');
+    for(let i = 0; i < task.length; i ++) {
+        task[i].onclick = event => {
+            event.target.parentElement.remove();
+            localStorage.setItem(`tasks`, `${tasksList.innerHTML}`);
+        }
     }
 }
