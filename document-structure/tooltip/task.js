@@ -3,10 +3,7 @@ const hasTooltip = document.querySelectorAll('.has-tooltip');
 for(let i = 0; i < hasTooltip.length; i++) {
     hasTooltip[i].addEventListener('click', function(event) {
         event.preventDefault();
-
-        if(document.querySelector('.tooltip_active')) {
-            document.querySelector('.tooltip_active').remove();
-        }
+        remove();
         
         let { x, y } = this.getBoundingClientRect();
         this.insertAdjacentHTML('afterEnd', `
@@ -15,9 +12,11 @@ for(let i = 0; i < hasTooltip.length; i++) {
         </div>`);
     })
 
-    hasTooltip[i].addEventListener('mouseout', function() {
-        if(document.querySelector('.tooltip_active')) {
-            document.querySelector('.tooltip_active').remove();
-        }
-    })
+    hasTooltip[i].addEventListener('mouseout', remove)
+}
+
+function remove() {
+    if(document.querySelector('.tooltip_active')) {
+        document.querySelector('.tooltip_active').remove();
+    }
 }
