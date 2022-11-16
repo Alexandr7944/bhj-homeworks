@@ -4,8 +4,8 @@ items.innerHTML = localStorage.getItem('itemsCache') ? localStorage.getItem('ite
 const xhrCard = new XMLHttpRequest();
 xhrCard.open('GET', 'https://netology-slow-rest.herokuapp.com/');
 xhrCard.responseType = 'json';
-xhrCard.onreadystatechange = function () {
-    if(xhrCard.readyState === xhrCard.DONE) {
+xhrCard.onload = function () {
+    if(xhrCard.readyState === xhrCard.DONE && xhrCard.status == 200) {
         document.querySelector('.loader_active').classList.remove('loader_active');
         getItem();
     }
