@@ -45,3 +45,10 @@
   display: block;
   text-align: center;
 }
+
+.welcome_active div {
+  margin-bottom: 20px;
+}
+.welcome_active .btn {
+  display: block;
+}
