@@ -8,6 +8,6 @@ editor.addEventListener('keyup', () => {
 })
 
 btnRemove.addEventListener('click', () => {
-    localStorage.clear();
+    delete localStorage.editor;
     editor.value = '';
 })
